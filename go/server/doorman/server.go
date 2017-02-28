@@ -26,9 +26,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/flipkart-incubator/doorman/go/connection"
-	"github.com/flipkart-incubator/doorman/go/server/election"
-	"github.com/flipkart-incubator/doorman/go/timeutil"
+	"doorman/go/connection"
+	"doorman/go/server/election"
+	"doorman/go/timeutil"
 	log "github.com/golang/glog"
 	"github.com/golang/protobuf/proto"
 	"github.com/prometheus/client_golang/prometheus"
@@ -36,7 +36,7 @@ import (
 	rpc "google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 
-	pb "github.com/flipkart-incubator/doorman/proto/doorman"
+	pb "doorman/proto/doorman"
 )
 
 var (
@@ -169,10 +169,10 @@ func (server *Server) WaitUntilConfigured() {
 // GetLearningModeEndTime returns the timestamp where a resource that has a
 // particular learning mode duration leaves learning mode.
 // mode duration is still in learning mode.
-// Note: If the learningModeDuration is less or equal to zero there is no
+// Note: If the learningModeDuration is less than zero there is no
 // learning mode!
 func (server *Server) GetLearningModeEndTime(learningModeDuration time.Duration) time.Time {
-	if learningModeDuration.Seconds() <= 0 {
+	if learningModeDuration.Seconds() < 0 {
 		return time.Unix(0, 0)
 	}
 
